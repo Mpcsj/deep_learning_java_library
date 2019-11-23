@@ -1,0 +1,191 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package projetonn_cet.util;
+
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import projetonn_cet.ProjetoNN_CeT;
+import projetonn_cet.controle.NN_RegressionLearning;
+import projetonn_cet.controle.neuronio.NeuronioComSigmoid;
+import projetonn_cet.controle.redeNeural.IRedeNeural;
+import projetonn_cet.modelo.DadosFromCSV;
+import projetonn_cet.modelo.IDados;
+import projetonn_cet.modelo.normalizador.Normalizador;
+
+/**
+ *
+ * @author mpcsj
+ */
+public class FuncoesAntigas {
+
+    public static LinkedList<Double> listaErrosSaida1 = new LinkedList<>();
+    public static LinkedList<Double> listaErrosSaida2 = new LinkedList<>();
+    public static LinkedList<Double> listaErrosSaida3 = new LinkedList<>();
+    public static LinkedList<Double> listaErrosSaida4 = new LinkedList<>();
+
+    public static void imprimeBase(List<double[]> baseDados) {
+        for (double[] baseDado : baseDados) {
+            for (int i = 0; i < baseDado.length; i++) {
+                System.out.print(" " + baseDado[i]);
+            }
+            System.out.println("");
+        }
+    }
+
+    public static void escreveEmArquivo(File file, FileWriter fr, List<double[]> saidasReais, List<double[]> saidasObtidas, String info) {
+        try {
+            fr.write(info + "\n");
+            for (int i = 0; i < saidasReais.size(); i++) {
+                for (int j = 0; j < saidasReais.get(i).length; j++) {
+                    fr.write(saidasReais.get(i)[j] + ",");
+                }
+                fr.write("\t");
+                for (int j = 0; j < saidasReais.get(i).length; j++) {
+                    fr.write(saidasObtidas.get(i)[j] + ",");
+                }
+                fr.write("\n");
+//                fr.close();
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(ProjetoNN_CeT.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public static List<double[]> pegaApenasColunaEspecificaDasSaidas(int nColuna, List<double[]> listaSaidas) {
+        List<double[]> res = new ArrayList<>(listaSaidas.size());
+        for (double[] amostra : listaSaidas) {
+            res.add(new double[]{amostra[nColuna]});
+        }
+        return res;
+    }
+
+    public static List<double[]> normalizaOuNao(Normalizador norm, List<double[]> lista, boolean normaliza) {
+        if (normaliza) {
+            return norm.normalizaBaseDados(lista,false);
+        } else {
+            return lista;
+        }
+    }
+
+    public static void main(String[] args) throws IOException {
+        File file = new File("ErrosDasRedes");
+        FileWriter fr = null;
+        try {
+            fr = new FileWriter(file);
+        } catch (IOException ex) {
+            Logger.getLogger(ProjetoNN_CeT.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        IDados dadosPRede = new DadosFromCSV();
+        // ------------------------------------------------------------------------------------------------------------------------------------//
+        // ------------------------------------------------------------------------------------------------------------------------------------//
+        // ainda tenho que dividir a base de dados entre parte de treinamento e parte de testes
+
+        Normalizador normA = new Normalizador();
+        Normalizador normB = new Normalizador();
+
+        List<double[]> entradas = normalizaOuNao(normA, dadosPRede.obtemDadosEntrada(), true);
+        List<double[]> saidas = normalizaOuNao(normB, dadosPRede.obtemDadosSaida(), false);
+
+        int qtdEpocasTreino = 10000;
+
+        // rede para trabalhar com a primeira saida
+        System.out.println("Rede 1:");
+        IRedeNeural redeNeural1 = new NN_RegressionLearning(entradas.get(0).length);
+
+        // adiciono uma camada oculta e uma camada de saida
+        redeNeural1.addCamada(8, new NeuronioComSigmoid());
+        redeNeural1.addCamada(1, new NeuronioComSigmoid());
+        // num neuronios,func ativacao d cada neuronio
+        redeNeural1.treinaRede(entradas, pegaApenasColunaEspecificaDasSaidas(0, saidas), qtdEpocasTreino);
+
+        System.out.println("Erros ao longo das epocas:(UPV)");
+        fr.write("Erros ao longo das epocas:(UPV)\n");
+        double erroTotal = 0;
+        for (double ds : NN_RegressionLearning.listaErrosPorEpoca) {
+            System.out.println(ds);
+            listaErrosSaida1.add(ds);
+            erroTotal += ds;
+        }
+        fr.write(erroTotal / NN_RegressionLearning.listaErrosPorEpoca.size() + "\n");
+        NN_RegressionLearning.listaErrosPorEpoca.clear();
+        // rede para trabalhar com a segunda saida
+        // ...
+        System.out.println("Rede 2:");
+        IRedeNeural redeNeural2 = new NN_RegressionLearning(entradas.get(0).length);
+
+        // adiciono uma camada oculta e uma camada de saida
+        redeNeural2.addCamada(8, new NeuronioComSigmoid());
+        redeNeural2.addCamada(1, new NeuronioComSigmoid());
+        // num neuronios,func ativacao d cada neuronio
+        redeNeural2.treinaRede(entradas, pegaApenasColunaEspecificaDasSaidas(1, saidas), qtdEpocasTreino);
+
+        System.out.println("Erros ao longo das epocas:(FC)\n");
+        erroTotal = 0;
+        for (double ds : NN_RegressionLearning.listaErrosPorEpoca) {
+            System.out.println(ds);
+            listaErrosSaida2.add(ds);
+            erroTotal += ds;
+        }
+        fr.write(erroTotal / NN_RegressionLearning.listaErrosPorEpoca.size() + "\n");
+        NN_RegressionLearning.listaErrosPorEpoca.clear();
+        // rede para trabalhar com a terceira saida
+        // ...
+        System.out.println("Rede 3:");
+        IRedeNeural redeNeural3 = new NN_RegressionLearning(entradas.get(0).length);
+
+        // adiciono uma camada oculta e uma camada de saida
+        redeNeural3.addCamada(8, new NeuronioComSigmoid());
+        redeNeural3.addCamada(1, new NeuronioComSigmoid());
+        // num neuronios,func ativacao d cada neuronio
+        redeNeural3.treinaRede(entradas, pegaApenasColunaEspecificaDasSaidas(2, saidas), qtdEpocasTreino);
+        erroTotal = 0;
+        System.out.println("Erros ao longo das epocas:(PM)");
+        fr.write("Erros ao longo das epocas:(PM)");
+        for (double ds : NN_RegressionLearning.listaErrosPorEpoca) {
+            System.out.println(ds);
+            listaErrosSaida3.add(ds);
+            erroTotal += ds;
+        }
+        fr.write(erroTotal / NN_RegressionLearning.listaErrosPorEpoca.size() + "\n");
+        NN_RegressionLearning.listaErrosPorEpoca.clear();
+
+        // rede que trabalha com todas as saidas ao mesmo tempo
+        System.out.println("Rede 4:");
+        IRedeNeural redeNeural4 = new NN_RegressionLearning(entradas.get(0).length);
+
+        // adiciono uma camada oculta e uma camada de saida
+        redeNeural4.addCamada(8, new NeuronioComSigmoid());
+        redeNeural4.addCamada(3, new NeuronioComSigmoid());
+        // num neuronios,func ativacao d cada neuronio
+        redeNeural4.treinaRede(entradas, saidas, qtdEpocasTreino);
+
+        System.out.println("Erros ao longo das epocas:(UPV)\t(FC)\t(PM)");
+        for (double ds : NN_RegressionLearning.listaErrosPorEpoca) {
+            System.out.println(ds);
+            listaErrosSaida3.add(ds);
+        }
+        fr.close();
+        // agora, executo cada uma das redes com as respectivas entradas e saidas
+//        List<double[]> saidasRede1 = ;
+//        escreveEmArquivo(file,fr, pegaApenasColunaEspecificaDasSaidas(0, saidas),redeNeural1.executaRede(entradas),"Rede 1(UPV)\nSaida Real\tSaida Calculada");
+//        escreveEmArquivo(file,fr, pegaApenasColunaEspecificaDasSaidas(1, saidas),redeNeural2.executaRede(entradas),"Rede 2(FC)\nSaida Real\tSaida Calculada");
+//        escreveEmArquivo(file,fr, pegaApenasColunaEspecificaDasSaidas(2, saidas),redeNeural3.executaRede(entradas),"Rede 3(PM)\nSaida Real\tSaida Calculada");
+//        escreveEmArquivo(file,fr,saidas,redeNeural4.executaRede(entradas),"Rede 4(UPV)\t(FC)\t(PM)\nSaida Real\t\t\tSaida Calculada");
+
+//        NNView view = new ExternaDadosRede();
+//        view.externaListaPesosRedeEDadosNormalizacao(normA.retornaListas(), normB.retornaListas(), redeNeural1.retornaPesosDaRede());
+//        view.externaListaPesosRedeEDadosNormalizacao(normA.retornaListas(), normB.retornaListas(), redeNeural2.retornaPesosDaRede());
+//        view.externaListaPesosRedeEDadosNormalizacao(normA.retornaListas(), normB.retornaListas(), redeNeural3.retornaPesosDaRede());
+    }
+}

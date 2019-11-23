@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group/>
+        <group name="Treino_Maratona">
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/modelo/DadosFromCSV.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/redeNeural/AbstractRedeNeural.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/redeNeural/NN_Classifier.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/neuronio/AbstractNeuronio.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/util/UtilObjects.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/neuronio/INeuronio.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/neuronio/NeuronioComStepFunct.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/Application.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/redeNeural/NN_RegressionLearning.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/classifier/SelectOneClassThreshold.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/controle/camada/camadaMLP/Camada.java</file>
+            <file>file:/home/mpcsj/NetBeansProjects/ProjetoNN_CeT/src/projetonn_cet/outros/Trabs_IC.java</file>
+        </group>
+    </open-files>
+</project-private>

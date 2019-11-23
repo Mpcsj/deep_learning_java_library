@@ -1,13 +1,13 @@
 # deep_learning_java_library
 
 
-Creating a simple classification Model:
- public static void trab5IC(){
-        int indexClasses[] = new int[]{0}; // array with the output indexes in csv file dataframe
-        // library for handling CSV files
-        // the first attribute defines the test size proportion
-        // the second defines the csv file
-        // the third is the output indexes
+Creating a simple classification Model:\n
+ public static void trab5IC(){\n
+        int indexClasses[] = new int[]{0}; // array with the output indexes in csv file dataframe\n
+        // library for handling CSV files\n
+        // the first attribute defines the test size proportion\n
+        // the second defines the csv file\n
+        // the third is the output indexes\n
         IDados dados = new DadosFromCSV(0.3, "base_trab2.csv", indexClasses);
         // number of inputs
         int nEntradas = dados.getBaseEntradaTreino().get(0).length;

@@ -1,7 +1,7 @@
 # deep_learning_java_library
 
 
-Creating a simple classification Model:\n
+<h1>Creating a simple classification Model:</h1>
  public static void trab5IC(){\n
         int indexClasses[] = new int[]{0}; // array with the output indexes in csv file dataframe\n
         // library for handling CSV files\n

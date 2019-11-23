@@ -1,7 +1,4 @@
 # deep_learning_java_library
-<<<<<<< HEAD
-# deep_learning_java_library
-=======
 
 <h2>Creating a simple classification Model:</h2>
  <b>public static void trab5IC(){</b><br/>
@@ -23,4 +20,3 @@
                 dados.getBaseEntradaTeste(), dados.getBaseSaidaTeste(), 10000, 1, LossMetrics.ModuleDif);<br/>
 
    <b> }</b>
->>>>>>> d405606be3065008706b46cc196a940bf85f58c6

@@ -2,7 +2,7 @@
 
 
 <h1>Creating a simple classification Model:</h1>
- public static void trab5IC(){\n
+ <p>public static void trab5IC(){\n
         int indexClasses[] = new int[]{0}; // array with the output indexes in csv file dataframe\n
         // library for handling CSV files\n
         // the first attribute defines the test size proportion\n
@@ -20,4 +20,4 @@
         IHistory historicos[] = nn.treinaRede(dados.getBaseEntradaTeste(), dados.getBaseSaidaTreino(),
                 dados.getBaseEntradaTeste(), dados.getBaseSaidaTeste(), 10000, 1, LossMetrics.ModuleDif);
 
-    }
+    }</p>

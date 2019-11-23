@@ -2,7 +2,7 @@
 
 
 <h1>Creating a simple classification Model:</h1>
- <p>public static void trab5IC(){\n
+ <small>public static void trab5IC(){</small>
         int indexClasses[] = new int[]{0}; // array with the output indexes in csv file dataframe\n
         // library for handling CSV files\n
         // the first attribute defines the test size proportion\n

@@ -1,7 +1,6 @@
 # deep_learning_java_library
 
 <h2>Creating a simple classification Model:</h2>
-```
  public static void trab5IC(){  
         int indexClasses[] = new int[]{0}; // array with the output indexes in csv file dataframe  
         // library for handling CSV files  
@@ -21,5 +20,3 @@
                 dados.getBaseEntradaTeste(), dados.getBaseSaidaTeste(), 10000, 1, LossMetrics.ModuleDif);\
 
     }
-
-```
